@@ -11,7 +11,7 @@ Summary:	KDE Integrated Development Environment - php
 Summary(pl.UTF-8):	Zintegrowane środowisko programisty dla KDE - php
 Name:		ka5-%{kaname}
 Version:	23.04.2
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	https://download.kde.org/stable/release-service/%{kdeappsver}/src/%{kaname}-%{version}.tar.xz
@@ -87,11 +87,13 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libkdevphpcompletion.so
 %attr(755,root,root) %{_libdir}/libkdevphpduchain.so
 %attr(755,root,root) %{_libdir}/libkdevphpparser.so
+%dir %{_libdir}/qt5/plugins/kdevplatform/511/kcm
 %attr(755,root,root) %{_libdir}/qt5/plugins/kdevplatform/511/kcm/kcm_kdevphpdocs.so
 %attr(755,root,root) %{_libdir}/qt5/plugins/kdevplatform/511/kdevphpdocs.so
 %attr(755,root,root) %{_libdir}/qt5/plugins/kdevplatform/511/kdevphplanguagesupport.so
 %attr(755,root,root) %{_libdir}/qt5/plugins/kdevplatform/511/kdevphpunitprovider.so
 %{_datadir}/kdevappwizard/templates/simple_phpapp.tar.bz2
+%dir %{_datadir}/kdevphpsupport
 %{_datadir}/kdevphpsupport/phpfunctions.php
 %{_datadir}/kdevphpsupport/phpunitdeclarations.php
 %{_datadir}/kservices5/kcm_kdevphpdocs.desktop
