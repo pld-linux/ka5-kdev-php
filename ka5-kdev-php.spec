@@ -2,7 +2,7 @@
 # Conditional build:
 %bcond_with	tests		# build with tests
 
-%define		kdeappsver	23.04.3
+%define		kdeappsver	23.08.0
 %define		kframever	5.103.0
 %define		qtver		5.15.2
 %define		kaname		kdev-php
@@ -10,19 +10,19 @@
 Summary:	KDE Integrated Development Environment - php
 Summary(pl.UTF-8):	Zintegrowane środowisko programisty dla KDE - php
 Name:		ka5-%{kaname}
-Version:	23.04.3
+Version:	23.08.0
 Release:	1
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	https://download.kde.org/stable/release-service/%{kdeappsver}/src/%{kaname}-%{version}.tar.xz
-# Source0-md5:	fd6f0b839a24ca0624948ccef4df70a0
+# Source0-md5:	6fe9c111c30ca9f9dbb25711f9e7a386
 URL:		http://www.kdevelop.org/
 BuildRequires:	Qt5Core-devel >= 5.15.2
 BuildRequires:	Qt5Gui-devel >= 5.15.2
 BuildRequires:	Qt5Test-devel
 BuildRequires:	Qt5Widgets-devel >= 5.15.2
 BuildRequires:	gettext-devel
-BuildRequires:	ka5-kdevelop-devel >= 5.7
+BuildRequires:	ka5-kdevelop-devel >= %{kdeappsver}
 BuildRequires:	ka5-kdevelop-pg-qt
 BuildRequires:	kf5-extra-cmake-modules >= 5.78.0
 BuildRequires:	kf5-kauth-devel >= 5.105.0
@@ -56,19 +56,17 @@ KDE Integrated Development Environment - php.
 %setup -q -n %{kaname}-%{version}
 
 %build
-install -d build
-cd build
 %cmake \
+	-B build \
 	-G Ninja \
 	%{!?with_tests:-DBUILD_TESTING=OFF} \
 	-DHTML_INSTALL_DIR=%{_kdedocdir} \
 	-DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
-	-DFORCE_BASH_COMPLETION_INSTALLATION=ON \
-	..
-%ninja_build
+	-DFORCE_BASH_COMPLETION_INSTALLATION=ON
+%ninja_build -C build
 
 %if %{with tests}
-ctest
+ctest --test-dir build
 %endif
 
 %install
@@ -87,11 +85,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libkdevphpcompletion.so
 %attr(755,root,root) %{_libdir}/libkdevphpduchain.so
 %attr(755,root,root) %{_libdir}/libkdevphpparser.so
-%dir %{_libdir}/qt5/plugins/kdevplatform/511/kcm
-%attr(755,root,root) %{_libdir}/qt5/plugins/kdevplatform/511/kcm/kcm_kdevphpdocs.so
-%attr(755,root,root) %{_libdir}/qt5/plugins/kdevplatform/511/kdevphpdocs.so
-%attr(755,root,root) %{_libdir}/qt5/plugins/kdevplatform/511/kdevphplanguagesupport.so
-%attr(755,root,root) %{_libdir}/qt5/plugins/kdevplatform/511/kdevphpunitprovider.so
+%dir %{_libdir}/qt5/plugins/kdevplatform/51?/kcm
+%attr(755,root,root) %{_libdir}/qt5/plugins/kdevplatform/51?/kcm/kcm_kdevphpdocs.so
+%attr(755,root,root) %{_libdir}/qt5/plugins/kdevplatform/51?/kdevphpdocs.so
+%attr(755,root,root) %{_libdir}/qt5/plugins/kdevplatform/51?/kdevphplanguagesupport.so
+%attr(755,root,root) %{_libdir}/qt5/plugins/kdevplatform/51?/kdevphpunitprovider.so
 %{_datadir}/kdevappwizard/templates/simple_phpapp.tar.bz2
 %dir %{_datadir}/kdevphpsupport
 %{_datadir}/kdevphpsupport/phpfunctions.php
